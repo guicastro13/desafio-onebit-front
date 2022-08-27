@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components";
 import ShopCart from "../assets/svg/shopCart";
 import SearchFild from "../assets/searchFild";
@@ -15,6 +16,7 @@ const Heading = styled.header`
     position: fixed;
 `;
 const CastroLogo = styled.h1`
+        cursor: pointer;
         font-family: 'Irish Grover', cursive;
         color: #EBF2F3;
 `;
@@ -27,10 +29,19 @@ const Div = styled.div`
 
 
 const Header = () => {
+    const navigate = useNavigate()    
+
+    function backHome(event) {
+        event.preventDefault()
+        navigate("/", { replace: true})
+    }
+
+
     return ( 
+        
         <>  
             <Heading>
-                <CastroLogo>CASTRO STORE</CastroLogo>
+                <CastroLogo onClick={(event) => backHome(event)}>CASTRO STORE</CastroLogo>
                 <Div>
                     <SearchFild/>
                     <ShopCart/>

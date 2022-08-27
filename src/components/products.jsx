@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import styled from "styled-components";
 
@@ -11,6 +11,7 @@ const Div = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Img = styled.img`
@@ -19,37 +20,36 @@ const Img = styled.img`
 `;
 
 const P = styled.p`
-  color: #EBF2F3;
+  color: #ebf2f3;
 `;
 
 const Product = () => {
   const [product, setProduct] = useState([]);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     api.get("/products").then((resposne) => setProduct(resposne.data));
   }, []);
 
-
-  function showProduct(event, product){
-    event.preventDefault()
-    console.log(product)
-    navigate(`/product/${product.id}`, {replace : true})
-
+  function showProduct(event, product) {
+    event.preventDefault();
+    navigate(`/product/${product.id}`, { replace: true });
   }
 
   return (
     <>
-        {product.map((product) => {
-          return (
-              <Div key={product.id} onClick={(event) => showProduct(event, product)}>
-                <Img src={product.images_show[0]} alt={product.text_alt}></Img>
-                <P> {product.name} </P>
-                <P> R$: {product.value}</P>
-              </Div>  
-          );
-        })}
+      {product.map((product) => {
+        return (
+          <Div
+            key={product.id}
+            onClick={(event) => showProduct(event, product)}
+          >
+            <Img src={product.images_show[0]} alt={product.text_alt}></Img>
+            <P> {product.name} </P>
+            <P> R$: {product.value}</P>
+          </Div>
+        );
+      })}
     </>
   );
 };
