@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Header from "../components/header";
 import GlobalStyle from "../../styles/global";
 import styled from "styled-components";
 import api from "../services/api";
 import { useParams } from "react-router-dom";
+import { UserContext } from "../context/index";
 
 const Main = styled.main`
   width: 90vw;
@@ -22,11 +23,13 @@ const SideCarousel = styled.section`
   display: flex;
   align-items: center;
   flex-direction: column;
+  gap: 20px;
+  padding: 15px;
 `;
 const Section = styled.section`
   width: 76%;
   background-color: #ebf2f3;
-  display: grid;
+  display: flex;
   flex-direction: row;
   gap: 10px;
   padding: 30px;
@@ -39,6 +42,13 @@ const PrimaryImg = styled.img`
   width: 200px;
   height: 200px;
 `;
+const Description = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+`;
+
 const ShowProduct = () => {
   const [product, setProduct] = useState(null);
 
@@ -46,10 +56,13 @@ const ShowProduct = () => {
     api.get("/products").then((response) => setProduct(response.data));
   }, []);
 
-  useEffect(() => {
-  }, [product]);
+  useEffect(() => {}, [product]);
 
   const { id } = useParams();
+
+  const indexProduct = Number(id - 1)
+
+  const { addProductToCart } = useContext(UserContext);
 
   return (
     <>
@@ -59,29 +72,38 @@ const ShowProduct = () => {
           {product === null ? (
             <div></div>
           ) : (
-            product[id - 1].images_show.map((item) => {
+            product[id - 1].images_show.map((item, index) => {
               return (
-                <Img src={item} alt={product[id - 1].text_alt}></Img>
-              )
+                <Img
+                  key={index}
+                  src={item}
+                  alt={product[id - 1].text_alt}
+                ></Img>
+              );
             })
           )}
         </SideCarousel>
         <Section>
-            {product === null ? (
-            <div></div> 
-            ) : (
+          {product === null ? (
+            <div></div>
+          ) : (
             <section>
-              <PrimaryImg src={product[id -1].images_show[0]} alt={product[id - 1].text_alt}></PrimaryImg>
-              {product[id -1].description}
+              <PrimaryImg
+                src={product[id - 1].images_show[0]}
+                alt={product[id - 1].text_alt}
+              ></PrimaryImg>
             </section>
-            )}
-            {product === null ? (<div></div>) : (
-              <section>
-                {product[id - 1].name}
-                <p>R$ {product[id - 1].value}</p>
-                <button>COMPRAR</button>
-              </section>
-            )}
+          )}
+          {product === null ? (
+            <div></div>
+          ) : (
+            <Description>
+              <h4>{product[id - 1].name}</h4>
+              <p>{product[id - 1].description}</p>
+              <p>R${product[id - 1].value}</p>
+              <button onClick={() => addProductToCart(indexProduct, 1)}>COMPRAR</button>
+            </Description>
+          )}
         </Section>
       </Main>
       <GlobalStyle />
