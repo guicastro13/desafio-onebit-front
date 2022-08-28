@@ -9,7 +9,7 @@ function Cart() {
     const { addToCart } = useContext(UserContext)
     return ( 
         <>
-            
+        
         </>
      );
 }

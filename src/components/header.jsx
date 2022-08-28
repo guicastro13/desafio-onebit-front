@@ -27,6 +27,10 @@ const Div = styled.div`
     gap:10px;
 `;
 
+const Span = styled.span`
+    cursor: pointer;
+`;
+
 
 const Header = () => {
     const navigate = useNavigate()    
@@ -36,6 +40,10 @@ const Header = () => {
         navigate("/", { replace: true})
     }
 
+    function goToCart(event) {
+        event.preventDefault()
+        navigate("/cart", { replace: true})
+    }
 
     return ( 
         
@@ -44,7 +52,7 @@ const Header = () => {
                 <CastroLogo onClick={(event) => backHome(event)}>CASTRO STORE</CastroLogo>
                 <Div>
                     <SearchFild/>
-                    <ShopCart/>
+                    <Span onClick={(event) => goToCart(event)}><ShopCart /></Span>
                 </Div>
             </Heading>
         </>

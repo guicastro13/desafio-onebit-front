@@ -22,9 +22,10 @@ const Context = ({ children }) => {
     }
   }
 
+
   return (
     <>
-      <UserContext.Provider value={{ addProductToCart, cartProducts }}>
+      <UserContext.Provider value={{ addProductToCart, cartProducts}}>
         {children}
       </UserContext.Provider>
     </>
