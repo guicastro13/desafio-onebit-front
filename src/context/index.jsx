@@ -5,23 +5,19 @@ const Context = ({ children }) => {
   const [cartProducts, setCartProducts] = useState([]);
 
   function addProductToCart(id, quantity) {
-    const cart = [id, quantity]
-    const isTrue = cartProducts.find(item => item[0] == id) 
-    console.log(isTrue)
-
+    const cart = {id, quantity}
+    const isTrue = cartProducts.find(item => item.id == id) 
      let index = cartProducts.indexOf(isTrue)
-
-    console.log(index)
     if (isTrue) {
-      console.log(cartProducts[index][1])
-      cartProducts[index][1] ++
-      console.log(cartProducts)
+      cartProducts[index].quantity ++
     } else {
       cartProducts.push(cart)
-      console.log(cartProducts)
     }
+    const newCart = cartProducts.slice()
+    setCartProducts(newCart)
+    console.log(cartProducts)
   }
-
+  
 
   return (
     <>

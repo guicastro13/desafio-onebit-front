@@ -1,8 +1,9 @@
-
 import Header from "../components/header";
 import GlobalStyle from "../../styles/global";
 import styled from "styled-components";
-
+import React, { useContext } from "react";
+import { UserContext } from "../context/index";
+import Card from "../services/Card";
 
 const Main = styled.main`
   width: 90vw;
@@ -28,7 +29,7 @@ const Section = styled.section`
   width: 76%;
   background-color: #ebf2f3;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 10px;
   padding: 30px;
 `;
@@ -40,26 +41,20 @@ const PrimaryImg = styled.img`
   width: 200px;
   height: 200px;
 `;
-const Description = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: flex-end;
-`;
 
-const CartPage = () => {
-  
+
+const CartPage = (props) => {
+  const { cartProducts } = useContext(UserContext);
+  console.log(cartProducts)
   return (
     <>
       <Header />
       <Main>
-        <SideCarousel>
-          <Img></Img>
-        </SideCarousel>
+        <SideCarousel>ola</SideCarousel>
         <Section>
-          <PrimaryImg></PrimaryImg>
-
-          <Description></Description>
+        {cartProducts.map((item, key) => {
+          <Card item={item} key={key}></Card>
+        })}
         </Section>
       </Main>
       <GlobalStyle />
